@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import altair as alt
+
 
 def main():
-
     st.title("Show Plot")
 
     between = st.sidebar.slider('範囲設定', 1, 100, 50)
