@@ -1,21 +1,25 @@
 {
   "name": "visual-chart",
-  "version": "1.0.0",
-  "description": "pythonでデスクトップアプリケーションの作成",
-  "main": "index.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/tachizawa/visual-chart",
+  "main": "./build/electron/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dump": "dump-stlite-desktop-artifacts",
+    "serve": "cross-env NODE_ENV=production electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+  "build": {
+    "files": ["build/**/*"],
+    "directories": {
+      "buildResources": "assets"
+    }
   },
   "devDependencies": {
+    "@stlite/desktop": "^0.52.0",
+    "cross-env": "^7.0.3",
     "electron": "^30.0.2",
-    "electron-builder": "^24.13.3",
-    "electron-store": "^9.0.0"
+    "electron-builder": "^24.13.3"
   }
 }
