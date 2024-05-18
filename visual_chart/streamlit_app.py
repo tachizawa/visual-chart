@@ -1,42 +1,40 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
+import websockets
 
-pageId = ''
+stream = st
 
+def navigate_to_page(page_name):
+    global stream
+    stream.session_state.page = page_name
+    websockets.websocket_entry()
+
+
+# ホームページ
+def render_home():
+    global stream
+    stream.title("ホームページ")
+    stream.write("ここはホームページです。")
+    if stream.button("製品ページに移動", on_click=navigate_to_page('products')):
+        navigate_to_page('products')
+
+
+# 製品ページ
+def render_products():
+    global stream
+    stream.title("製品ページ")
+    stream.write("ここは製品ページです。")
+    if stream.button("ホームに戻る", on_click=navigate_to_page('home')):
+        navigate_to_page('home')
 
 def main():
-    st.title("Show Plot")
-    global pageId
+    if 'page' not in stream.session_state:
+        stream.session_state.page = 'home'
 
-    between = st.sidebar.slider('範囲設定', 1, 100, 50)
-    pageId = 'start'
-
-    if pageId == 'start':
-        st.title("Start")
-
-        st.button('start', on_click=start)
-
-    if pageId == 'process':
-        st.title("Process")
-
-        st.button('cansel', on_click=process)
-
-
-def start():
-    global pageId
-
-    df = pd.DataFrame(np.arange(10))
-    st.dataframe(df, use_container_width=True)
-    pageId = 'process'
-
-
-def process():
-    global pageId
-    df = pd.DataFrame(np.arange(2))
-    st.dataframe(df, use_container_width=True)
-    pageId = 'start'
-
+    # ページの内容を制御
+    if stream.session_state.page == 'home':
+        render_home()
+    elif stream.session_state.page == 'products':
+        render_products()
 
 if __name__ == "__main__":
     main()
